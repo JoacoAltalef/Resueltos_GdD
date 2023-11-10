@@ -11,4 +11,4 @@ los costos de cada uno de los items de dicha factura.
  Las columnas que se deben mostrar son:
  Año
  Clientes a los que se les facturó mal en ese año
- Facturas mal realizadas en ese año*/use GD2015C1select year(fact_fecha) 'Anio', count(distinct fact_cliente) 'Clientes a los que se les facturó mal', count(distinct fact_numero+fact_sucursal+fact_tipo) 'Facturas incorrectas'from facturawhere abs(fact_total - fact_total_impuestos - (select sum(item_precio) from item_factura where fact_numero+fact_sucursal+fact_tipo = item_numero+item_sucursal+item_tipo)) > 1group by year(fact_fecha)
+ Facturas mal realizadas en ese año*/use GD2015C1select year(fact_fecha) 'Anio',	count(distinct fact_cliente) 'Clientes a los que se les facturó mal',	count(distinct fact_numero+fact_sucursal+fact_tipo) 'Facturas incorrectas'from facturawhere abs(fact_total - fact_total_impuestos - (select sum(item_precio * item_cantidad) from item_factura where fact_numero+fact_sucursal+fact_tipo = item_numero+item_sucursal+item_tipo)) > 1group by year(fact_fecha)

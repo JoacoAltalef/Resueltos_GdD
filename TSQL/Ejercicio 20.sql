@@ -1,0 +1,7 @@
+/*
+20.
+Crear el/los objeto/s necesarios para mantener actualizadas las comisiones del
+vendedor.
+ El cálculo de la comisión está dado por el 5% de la venta total efectuada por ese
+vendedor en ese mes, más un 3% adicional en caso de que ese vendedor haya
+vendido por lo menos 50 productos distintos en el mes.*/use GD2015C1gocreate trigger ej20 on facturafor insert, updateasbegin	--Sin join	declare cursor_factura cursor for	select fact_vendedor, sum(fact_total), (select count(distinct item_producto) from item_factura where item_numero+item_sucursal+item_tipo = fact_numero+fact_sucursal+fact_tipo)	from inserted	group by fact_vendedor, year(fact_fecha), month(fact_fecha)		--Con join (creo que esta es mejor)	declare cursor_factura cursor for	select fact_vendedor, sum(item_cantidad * item_precio), count(distinct item_producto)	from inserted		join item_factura on item_numero+item_sucursal+item_tipo = fact_numero+fact_sucursal+fact_tipo	group by fact_vendedor, year(fact_fecha), month(fact_fecha)	declare @vendedor numeric(6)	declare @total_mes int	declare @cantidad_productos int	open cursor_factura		fetch next from cursor_factura into @vendedor, @total_mes, @cantidad_productos		while @@FETCH_STATUS = 0		begin			update empleado			set empl_comision = @total_mes * (0.05 + 				case when @cantidad_productos >= 50					then 0.03				else 0				end			)			where empl_codigo = @vendedor			fetch next from cursor_factura into @vendedor, @total, @cantidad_productos		end	close cursor_factura	deallocate cursor_facturaend
