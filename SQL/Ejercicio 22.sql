@@ -1,4 +1,7 @@
-﻿/*22.
+﻿--------------
+-- Punto 22 --
+--------------
+/*
  Escriba una consulta sql que retorne una estadística de venta para todos los rubros por
 trimestre contabilizando todos los años. Se mostrarán como máximo 4 filas por rubro (1
 por cada trimestre).
