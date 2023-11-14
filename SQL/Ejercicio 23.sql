@@ -12,7 +12,7 @@ El resultado deberá ser ordenado por el total vendido por año en forma descend
 use GD2015C1
 go
 
---Tarda más, pero hay más lógica ahorrada. No sé cuál de las dos es mejor. Supongo que la que tarda menos.
+--Tarda más, pero hay más lógica ahorrada. Es mejor pues es más declarativa. 
 select year(fact_fecha) 'Año',
 	item_producto,
 
@@ -45,7 +45,7 @@ group by year(fact_fecha), item_producto
 order by sum(fact_total) desc
 
 
-
+--Tarda menos pues quizás algunas subconsultas son estáticas (según henry, pero no creo)
 /*
 
 select year(fact_fecha) 'Año',

@@ -20,7 +20,7 @@ as
 begin
 	declare @operacion char(3)
 	
-	if exists(select * from inserted) and exists(select * from deleted)
+	if exists(select 1 from inserted) and exists(select 1 from deleted)
 	begin
 		insert into aud_stock (auds_operacion, auds_fecha_hora, auds_cantidad, auds_punto_reposicion, auds_stock_maximo, auds_detalle, auds_proxima_reposicion, auds_producto, auds_deposito)
 		select 'UP1',
@@ -48,7 +48,7 @@ begin
 		from deleted
 
 	end
-	else if exists(select * from inserted)
+	else if exists(select 1 from inserted)
 		insert into aud_stock (auds_operacion, auds_fecha_hora, auds_cantidad, auds_punto_reposicion, auds_stock_maximo, auds_detalle, auds_proxima_reposicion, auds_producto, auds_deposito)
 		select 'INS',
 			getdate(),
